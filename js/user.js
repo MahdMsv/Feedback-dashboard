@@ -53,11 +53,14 @@ form.addEventListener("submit", async (e) => {
   setLoading(true);
 
   try {
-    const res = await fetch("http://localhost:3000/feedbacks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, message }),
-    });
+    const res = await fetch(
+      "https://feedback-dashboard-backend-9qya.onrender.com/feedbacks",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, message }),
+      },
+    );
 
     if (!res.ok) throw new Error(`Server responded ${res.status}`);
 
@@ -82,16 +85,19 @@ async function sendFeedback() {
     return;
   }
 
-  const res = await fetch("http://localhost:3000/feedbacks", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const res = await fetch(
+    "https://feedback-dashboard-backend-9qya.onrender.com/feedbacks",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        message,
+      }),
     },
-    body: JSON.stringify({
-      title,
-      message,
-    }),
-  });
+  );
 
   const data = await res.json();
   console.log(data);
