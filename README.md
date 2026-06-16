@@ -61,36 +61,33 @@ A simple login system has been implemented for admin access.
 ---
 
 ## 📁 Project Structure
+│   ├── index.html
+│   ├── user.html
+│   ├── admin.html
+│   ├── login.html
 
-feedback-board/
-│
 ├── backend/
-│ ├── server.js
-│ ├── package.json
-│ ├── package-lock.json
-│ ├── feedback.db
-│
-├── frontend/
-│ ├── index.html
-│ ├── user.html
-│ ├── admin.html
-│ ├── login.html
-│
-├── assets/
-│ ├── user.png
-│ ├── admin.png
-│ ├── login.png
-│
-├── js/
-│ ├── user.js
-│ ├── admin.js
-│ ├── login.js
-│
-├── style/
-│ ├── style-user.css
-│ ├── style-admin.css
-│ ├── style-login.css
+│   ├── server.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── feedback.db
 
+├── assets/
+│   ├── user.png
+│   ├── admin.png
+│   ├── login.png
+
+├── js/
+│   ├── user.js
+│   ├── admin.js
+│   ├── login.js
+
+├── style/
+│   ├── style-user.css
+│   ├── style-admin.css
+│   ├── style-login.css
+
+├── README.md
 ````
 
 ---
