@@ -1,33 +1,42 @@
 const express = require("express");
 const cors = require("cors");
-const sqlite3 = require("sqlite3").verbose();
+const { Pool } = require("pg");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// ===================== PORT (IMPORTANT FOR RENDER) =====================
+// ===================== PORT =====================
 const PORT = process.env.PORT || 3000;
 
-// ===================== DB =====================
-const db = new sqlite3.Database("./feedback.db", (err) => {
-  if (err) {
-    console.error("DB Error:", err.message);
-  } else {
-    console.log("Connected to SQLite database");
-  }
+// ===================== POSTGRESQL CONNECTION =====================
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-// ===================== TABLE =====================
-db.run(`
-  CREATE TABLE IF NOT EXISTS feedback (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    message TEXT,
-    status TEXT DEFAULT 'registered'
-  )
-`);
+// ===================== INIT DB =====================
+const initDB = async () => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS feedback (
+        id SERIAL PRIMARY KEY,
+        title TEXT,
+        message TEXT NOT NULL,
+        status TEXT DEFAULT 'registered'
+      )
+    `);
+
+    console.log("PostgreSQL Table Ready 🚀");
+  } catch (err) {
+    console.error("DB Init Error:", err);
+  }
+};
+
+initDB();
 
 // ===================== HOME ROUTE =====================
 app.get("/", (req, res) => {
@@ -41,7 +50,7 @@ const ADMIN = {
   token: "admin-token-123",
 };
 
-// 🔐 LOGIN
+// LOGIN
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -52,7 +61,7 @@ app.post("/login", (req, res) => {
   return res.status(401).json({ message: "Invalid credentials" });
 });
 
-// 🔐 MIDDLEWARE
+// AUTH MIDDLEWARE
 function auth(req, res, next) {
   const header = req.headers.authorization;
 
@@ -70,51 +79,50 @@ function auth(req, res, next) {
 }
 
 // ===================== GET FEEDBACKS =====================
-app.get("/feedbacks", (req, res) => {
-  db.all("SELECT * FROM feedback", [], (err, rows) => {
-    if (err) return res.status(500).json(err);
-    res.json(rows);
-  });
+app.get("/feedbacks", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM feedback ORDER BY id DESC");
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-// ===================== POST FEEDBACK =====================
-app.post("/feedbacks", (req, res) => {
+// ===================== CREATE FEEDBACK =====================
+app.post("/feedbacks", async (req, res) => {
   const { title, message } = req.body;
 
   if (!message) {
     return res.status(400).json({ error: "message is required" });
   }
 
-  db.run(
-    "INSERT INTO feedback (title, message, status) VALUES (?, ?, ?)",
-    [title || "", message, "registered"],
-    function (err) {
-      if (err) return res.status(500).json(err);
+  try {
+    const result = await pool.query(
+      "INSERT INTO feedback (title, message, status) VALUES ($1, $2, $3) RETURNING *",
+      [title || "", message, "registered"],
+    );
 
-      res.json({
-        id: this.lastID,
-        title: title || "",
-        message,
-        status: "registered",
-      });
-    },
-  );
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-// ===================== UPDATE STATUS (PROTECTED) =====================
-app.put("/feedbacks/:id", auth, (req, res) => {
+// ===================== UPDATE STATUS =====================
+app.put("/feedbacks/:id", auth, async (req, res) => {
   const { status } = req.body;
   const { id } = req.params;
 
-  db.run(
-    "UPDATE feedback SET status = ? WHERE id = ?",
-    [status, id],
-    function (err) {
-      if (err) return res.status(500).json(err);
+  try {
+    await pool.query("UPDATE feedback SET status = $1 WHERE id = $2", [
+      status,
+      id,
+    ]);
 
-      res.json({ success: true });
-    },
-  );
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // ===================== START SERVER =====================
