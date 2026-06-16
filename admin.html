@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard — Feedback Board</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style/style-admin.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <span class="eyebrow">Admin</span>
+          <h1>Feedback Board</h1>
+        </div>
+
+        <div class="header-actions">
+          <div class="badge">Total: <span id="totalCount">0</span></div>
+
+          <button class="btn-refresh" id="refreshBtn">↻ Refresh</button>
+
+          <a href="user.html" class="btn-new">+ New feedback</a>
+
+          <button class="btn-logout" id="logoutBtn">Logout</button>
+          <button class="btn-dark" id="darkToggle">🌙 Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="registered">Registered</button>
+      <button class="filter-btn" data-filter="in-progress">In Progress</button>
+      <button class="filter-btn" data-filter="resolved">Resolved</button>
+    </div>
+
+    <main id="main">
+      <div class="spinner-wrap">
+        <div class="big-spinner"></div>
+        <p>Loading feedbacks...</p>
+      </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/admin.js"></script>
+    <script>
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Share Feedback</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/style-user.css" />
+  </head>
+  <body>
+    <div class="card">
+      <p class="eyebrow">Feedback Board</p>
+      <h1>We're listening.</h1>
+      <p class="subtitle">
+        Share what's on your mind — bugs, ideas, or anything in between. Your
+        input shapes what we build next.
+      </p>
+
+      <form id="feedbackForm" novalidate>
+        <div class="field">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            placeholder="Short summary of your feedback"
+            maxlength="80"
+            required
+          />
+          <div class="char-count"><span id="titleCount">0</span> / 80</div>
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            placeholder="Describe your feedback in detail…"
+            maxlength="500"
+            required
+          ></textarea>
+          <div class="char-count"><span id="msgCount">0</span> / 500</div>
+        </div>
+
+        <button type="submit" id="submitBtn">
+          <span id="btnText">Send feedback</span>
+        </button>
+      </form>
+
+      <hr class="divider" />
+      <p class="admin-link">
+        Reviewing submissions? <a href="admin.html">Open admin dashboard →</a>
+      </p>
+    </div>
+
+    <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+    <script src="js/user.js"></script>
+  </body>
+</html>
