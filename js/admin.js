@@ -3,8 +3,7 @@ const token = localStorage.getItem("token");
 if (!token) {
   window.location.href = "login.html";
 }
-
-const API = "http://localhost:3000/feedbacks";
+const API = "https://feedback-dashboard-backend-9qya.onrender.com/feedbacks";
 
 let allFeedbacks = [];
 let activeFilter = "all";
