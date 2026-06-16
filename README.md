@@ -1,7 +1,12 @@
 # 📌 Feedback Board (Mini Full-Stack Project)
 
-A simple full-stack feedback management system built with **Node.js (Express)** and a **vanilla HTML/CSS/JS frontend**.
-This project demonstrates basic CRUD operations, API integration, and a simple admin dashboard.
+A simple full-stack Feedback Management System built with:
+
+Node.js (Express)
+PostgreSQL (production database)
+Vanilla HTML/CSS/JS frontend
+REST API architecture
+Deployed backend on Render
 
 ---
 
@@ -26,6 +31,18 @@ This project demonstrates basic CRUD operations, API integration, and a simple a
 
 ---
 
+## 🔐 Authentication & Admin Access
+
+A simple login system has been implemented for admin access.
+
+- Admin login is required to access the dashboard
+- Default admin password: `1234`
+- Only authenticated admin users can update feedback status
+- User authentication helps restrict access to sensitive operations
+- Admin can change feedback status (Registered / In Progress / Resolved)
+
+---
+
 ## 🧰 Tech Stack
 
 ### Backend
@@ -33,6 +50,7 @@ This project demonstrates basic CRUD operations, API integration, and a simple a
 - Node.js
 - Express.js
 - REST API
+- PostgreSQL (Render Database)
 
 ### Frontend
 
@@ -44,24 +62,34 @@ This project demonstrates basic CRUD operations, API integration, and a simple a
 
 ## 📁 Project Structure
 
-feedback-board
-
+feedback-board/
+│
+├── backend/
+│ ├── server.js
+│ ├── package.json
+│ ├── package-lock.json
+│ ├── feedback.db
+│
+├── frontend/
 │ ├── index.html
 │ ├── user.html
 │ ├── admin.html
 │ ├── login.html
-│ ├── style/
-│ │ ├── style-user.css
-│ │ └── style-admin.css
-│ │ ├── style-login.css
-│ ├── js/
-│ │ ├── user.js
-│ │ └── admin.js
-│ │ └── login.js
-│ ├── backend
-│ ├── server.js
-│ ├── package.json
-│ ├── package-lock.json
+│
+├── assets/
+│ ├── user.png
+│ ├── admin.png
+│ ├── login.png
+│
+├── js/
+│ ├── user.js
+│ ├── admin.js
+│ ├── login.js
+│
+├── style/
+│ ├── style-user.css
+│ ├── style-admin.css
+│ ├── style-login.css
 
 ````
 
@@ -168,18 +196,6 @@ PUT /feedbacks/:id
 ### 🔐 Login Page
 
 ![Login Page](assets/login.png)
-
----
-
-## 🔐 Authentication & Admin Access
-
-A simple login system has been implemented for admin access.
-
-- Admin login is required to access the dashboard
-- Default admin password: `1234`
-- Only authenticated admin users can update feedback status
-- User authentication helps restrict access to sensitive operations
-- Admin can change feedback status (Registered / In Progress / Resolved)
 
 ---
 
