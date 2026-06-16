@@ -4,13 +4,16 @@ async function login() {
   const msg = document.getElementById("msg");
 
   try {
-    const res = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      "https://feedback-dashboard-backend-9qya.onrender.com/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
       },
-      body: JSON.stringify({ username, password }),
-    });
+    );
 
     if (!res.ok) {
       msg.innerText = "Login failed ❌";
