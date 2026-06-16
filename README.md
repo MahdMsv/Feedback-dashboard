@@ -44,7 +44,8 @@ This project demonstrates basic CRUD operations, API integration, and a simple a
 
 ## 📁 Project Structure
 
-feedback-board/
+feedback-board
+
 │ ├── index.html
 │ ├── user.html
 │ ├── admin.html
